@@ -79,7 +79,7 @@ yarn build
 - events: IEvents // события Содержит метод emitChanges(), который оповещает о том, что модель изменилась.
 
 ## Классы модели данных
-### Класс `Product`
+### Класс `IProduct`
 Описывает товар с полями для идентификатора, названия, описания, цены и URL изображения.
 - id: string;
 - name: string;
@@ -87,34 +87,34 @@ yarn build
 - price: number;
 - imageUrl: string;
 
-### Класс `CartItem`
+### Класс `ICartItem`
 Представляет элемент в корзине, состоящий из товара и количества.
 - product: Product;
 - quantity: number;
 
-### Класс `Cart`
+### Класс `ICart`
 Содержит массив товаров и методы для добавления, удаления и очистки корзины.
 - items: CartItem[];
 - addItem(product: Product): void;
 - removeItem(productId: string): void;
 - clearCart(): void;
 
-### Класс `PaymentMethod`
+### Класс `IPaymentMethod`
 Описывает способ оплаты с идентификатором и именем.
 - id: string;
 - name: string;
 
-### Класс `DeliveryInfo`
+### Класс `IDeliveryInfo`
 Содержит информацию о доставке, включая адрес и способ оплаты.
 - address: string;
 - paymentMethod: PaymentMethod;
 
-### Класс `User`
+### Класс `IUser`
 Описывает информацию о пользователе, включая почту и телефон.
 - email: string;
 - phone: string;
 
-### Класс `OrderProcess`
+### Класс `IOrderProcess`
 Содержит информацию о процессе оформления заказа, метод проверки валидности заполненных полей и метод подтверждения заказа.
 deliveryInfo?: DeliveryInfo;
 - user?: User;
@@ -122,24 +122,24 @@ deliveryInfo?: DeliveryInfo;
 - validateStep(): boolean; // Метод для проверки заполненности полей
 - submitOrder(): void; // Метод для подтверждения заказа
 
-### Класс `ProductModal`
+### Класс `IProductModal`
 Интерфейс для модального окна с детальной информацией о товаре и функциями для добавления и удаления из корзины.
 - product: Product;
 - onBuy: (product: Product) => void; // Функция для добавления в корзину
 - onRemove: (productId: string) => void; // Функция для удаления из корзины
 
-### Класс `MainPage`
+### Класс `IMainPage`
 Описывает главную страницу с массивом товаров и функциями для обработки кликов на товары и корзину.
 - products: Product[];
 - onProductClick: (productId: string) => void; // Функция для открытия модального окна с детальной информацией
 - onCartIconClick: () => void; // Функция для открытия корзины
 
-### Класс `CartPage`
+### Класс `ICartPage`
 Интерфейс для страницы корзины с функцией для начала оформления заказа.
 - cart: Cart;
 - onCheckout: () => void; // Функция для начала оформления заказа
 
-### Класс `CheckoutPage`
+### Класс `ICheckoutPage`
 Интерфейс для страницы оформления заказа с методами для перехода к следующему шагу и завершения заказа.
 - orderProcess: OrderProcess;
 - onNextStep: () => void; // Функция для перехода к следующему шагу
