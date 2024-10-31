@@ -1,76 +1,73 @@
-// Интерфейс для товара
-interface Product {
+import { Product } from "../components/appStatus";
+
+export interface ICard {
   id: string;
-  name: string;
+  title: string;
+  category: string;
   description: string;
-  price: number;
-  imageUrl: string;
+  image: string;
+  price: number | null;
+  selected: boolean;
 }
 
-// Интерфейс для корзины
-interface CartItem {
-  product: Product;
-  quantity: number;
+export type CategoryType =
+  | 'другое'
+  | 'софт-скил'
+  | 'дополнительное'
+  | 'кнопка'
+  | 'хард-скил';
+
+export type CategoryMapping = {
+  [Key in CategoryType]: string;
+};
+
+export interface ApiResponse {
+  items: ICard[];
 }
 
-// Интерфейс для корзины
-interface Cart {
-  items: CartItem[];
-  addItem(product: Product): void;
-  removeItem(productId: string): void;
-  clearCart(): void;
-}
-
-// Интерфейс для способа оплаты
-interface PaymentMethod {
-  id: string;
-  name: string;
-}
-
-// Интерфейс для информации о доставке
-interface DeliveryInfo {
+export interface IOrder {
+  // Массив ID купленных товаров
+  items: string[];
   address: string;
-  paymentMethod: PaymentMethod;
-}
-
-// Интерфейс для пользователя
-interface User {
   email: string;
   phone: string;
+  payment: string;
+  total: number;
 }
 
-// Интерфейс для состояния оформления заказа
-interface OrderProcess {
-  deliveryInfo?: DeliveryInfo;
-  user?: User;
-  step: 1 | 2; // 1 - выбор способа оплаты и адреса, 2 - ввод данных пользователя
-  validateStep(): boolean; // Метод для проверки заполненности полей
-  submitOrder(): void; // Метод для подтверждения заказа
+export interface IOrderForm {
+  address: string;
+  email: string;
+  phone: string;
+  payment: string;
 }
 
-// Интерфейс для модального окна с детальной информацией о товаре
-interface ProductModal {
-  product: Product;
-  onBuy: (product: Product) => void; // Функция для добавления в корзину
-  onRemove: (productId: string) => void; // Функция для удаления из корзины
-}
+export type FormErrors = Partial<Record<keyof IOrderForm, string>>;
 
-// Интерфейс для главной страницы
-interface MainPage {
-  products: Product[];
-  onProductClick: (productId: string) => void; // Функция для открытия модального окна с детальной информацией
-  onCartIconClick: () => void; // Функция для открытия корзины
-}
+export interface IAppStatus {
+  // Корзина и товары
+  basket: Product[];
+  store: Product[];
 
-// Интерфейс для корзины
-interface CartPage {
-  cart: Cart;
-  onCheckout: () => void; // Функция для начала оформления заказа
-}
+  // Заказ и ошибки
+  order: IOrder;
+  formErrors: FormErrors;
 
-// Интерфейс для оформления заказа
-interface CheckoutPage {
-  orderProcess: OrderProcess;
-  onNextStep: () => void; // Функция для перехода к следующему шагу
-  onSubmit: () => void; // Функция для завершения заказа
+  // Методы управления корзиной
+  addToBasket(product: Product): void;
+  deleteFromBasket(productId: string): void;
+  clearBasket(): void;
+  getBasketAmount(): number;
+  getTotalBasketPrice(): number;
+
+  // Методы для обработки заказа
+  setItems(): void;
+  setOrderField(field: keyof IOrderForm, value: string): void;
+  validateContacts(): boolean;
+  validateOrder(): boolean;
+  refreshOrder(): boolean;
+
+  // Методы для работы с данными
+  setStore(items: ICard[]): void;
+  resetSelected(): void;
 }

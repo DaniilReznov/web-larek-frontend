@@ -133,3 +133,10 @@ export function createElement<
     }
     return element;
 }
+
+export function handlePrice(price: number): string {
+  const priceStr = price.toString();
+  if (priceStr.length < 5) return priceStr;
+
+  return priceStr.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ');
+}
