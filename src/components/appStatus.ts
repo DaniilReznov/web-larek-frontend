@@ -15,7 +15,7 @@ export class Product extends Model<ICard> {
 // Класс, описывающий состояние приложения
 export class AppState extends Model<IAppStatus> {
   basket: Product[] = []; // Корзина с товарами
-  store: Product[] = []; // Массив всех товаров
+  store: ICard[] = []; // Массив всех товаров
   order: IOrder = { // Объект заказа клиента
     items: [],
     payment: '',
@@ -114,7 +114,9 @@ export class AppState extends Model<IAppStatus> {
 
   // Устанавливает товары в магазине и эмитирует событие об изменении
   setStore(items: ICard[]): void {
-    this.store = items.map(item => new Product({ ...item, selected: false }, this.events));
+    // this.store = items.map(item => new Product({ ...item, selected: false }, this.events));
+    // this.emitChanges('items:changed', { store: this.store });
+    this.store = items;
     this.emitChanges('items:changed', { store: this.store });
   }
 
